@@ -1,8 +1,5 @@
 FROM archlinux
-RUN \
-    useradd -m developer && \
-    mkdir -p /workspace && \
-    chown developer:root /workspace
+ENV TERM=xterm-256color
 RUN \
     pacman -Syu --noconfirm \
       base-devel \
@@ -22,7 +19,12 @@ RUN \
       codespell \
       ansible \
       docker \
-      bat && \
+      bat
+
+RUN \
+    useradd -m -s /usr/bin/zsh developer && \
+    mkdir -p /workspace && \
+    chown developer:root /workspace && \
     usermod -a -G docker developer
 USER developer
 WORKDIR /home/developer
