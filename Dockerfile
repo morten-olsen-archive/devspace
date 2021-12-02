@@ -46,6 +46,7 @@ RUN \
     npm i -g yarn write-good fx && \
     git clone --depth 20 https://github.com/wbthomason/packer.nvim\
       ~/.local/share/nvim/site/pack/packer/start/packer.nvim && \
+    ~/.tmux/plugins/tpm && ~/.tmux/plugins/tpm/bin/install_plugin && \
     nvim --headless -c "autocmd User PackerComplete quitall" -c "PackerSync"
 WORKDIR /workspace
 CMD sleep 86400
