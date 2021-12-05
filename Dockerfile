@@ -43,7 +43,7 @@ RUN \
 RUN \
     source ~/.bashrc && \
     nvm install 16 && \
-    npm i -g yarn write-good fx && \
+    npm i -g --ignore-scripts yarn write-good fx && \
     git clone --depth 20 https://github.com/wbthomason/packer.nvim\
       ~/.local/share/nvim/site/pack/packer/start/packer.nvim && \
     nvim --headless -c "autocmd User PackerComplete quitall" -c "PackerSync"
