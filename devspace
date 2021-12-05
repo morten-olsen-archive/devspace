@@ -2,7 +2,8 @@
 
 COMMAND=$1; shift
 BASE_LOCATION="$PWD/.devspace"
-BASE_COMMAND="docker-compose -f $BASE_LOCATION/docker-compose.yml"
+BASE_NAME="`basename $PWD`"
+BASE_COMMAND="docker-compose -f $BASE_LOCATION/docker-compose.yml --project-name $BASE_NAME"
 START_COMMAND="/bin/zsh"
 SERVICE_NAME="devspace"
 
