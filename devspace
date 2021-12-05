@@ -1,0 +1,40 @@
+#!/bin/bash
+
+COMMAND=$1; shift
+BASE_LOCATION="$PWD/.devspace"
+BASE_COMMAND="docker-compose -f $BASE_LOCATION/docker-compose.yml"
+START_COMMAND="/bin/zsh"
+SERVICE_NAME="devspace"
+
+HELP="
+COMMANDS:
+
+up       Start dev environmnent
+down     Stop dev environment
+enter    Enter dev environment
+run ...  Execute command on devspace
+update   Pull and build dev environment
+"
+
+case "$COMMAND" in
+  "up")
+    $BASE_COMMAND up -d 
+    ;;
+  "down")
+    $BASE_COMMAND down
+    ;;
+  "enter")
+    $BASE_COMMAND exec "$SERVICE_NAME" $START_COMMAND
+    ;;
+  "run")
+    $BASE_COMMAND run "$SERVICE_NAME" $@
+    ;;
+  "update")
+    $BASE_COMMAND pull && $BASE_COMMAND build --pull
+    ;;
+  *)
+    echo "Unknown command"
+    echo "$HELP"
+    exit -1
+    ;;
+esac

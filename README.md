@@ -16,19 +16,27 @@ This approach is still a work in progress but at the time of writing my workflow
 
 **Setup**
 
-I create a `dev-compose.yml` file inside the project (which I have added to my global git ignore) with a `devspace` container where I mount the current project directory, and any services that specific project needs.
+I create a `docker-compose.yml` file inside a `.devspace` folder in the project (which I have added to my global git ignore) with a `devspace` container where I mount the current project directory (`..`), and add any services that specific project needs. I would usually set the image of `devspace` to `ghcr.io/morten-olsen/devspace`, but for more complex projects that requires additional tools added to my dev space I also add a `Dockerfile` inside the `.devspace` folder and use the `build` prop inside `docker-compose` instead of the image.
 
-See [the example file](./example-docker-compose.yml) for a simple example with a minimal `redis` service.
+See [the example](./.devspace) for an advanced example with an extended docker file and a Redis service
 
 **Running**
 
-Start the development environment using `docker-compose -f dev-compose.yml up -d`, and enter the development environment with `docker-compose -f dev-compose.yml exec devspace /bin/zsh`. Once I'm done I run `docker-compose -f dev-compose.yml down` to shut the development environment down.
+Start the development environment using `docker-compose -f .devspace/docker-compose.yml up -d`, and enter the development environment with `docker-compose -f .devspace/docker-compose.yml exec devspace /bin/zsh`. Once I'm done I run `docker-compose -f .devspace/docker-compose.yml down` to shut the development environment down.
 
-I have aliased those commands to `dev-up`, `dev-run` and `dev-down`
+The same approach can de used for pulling, building and running one of containers for specific tasks
+
+To simplify these commands I have added a [bash script](./devspace) with the commands I use (`up`, `down`, `enter`, `run` and `update`).
+
+If you have cloned this repo you can try to run `./devspace up`, `./devspace enter`, `redis-cli -h redis` to create the development environment, enter it and connect to the redis service. After you are down type `exit` to exit out of the session and then `./devspace down` to remove the environment.
+
+__Pro tip__: Since `devspace` depends on `redis` you can also do `./devspace run redis-cli -h redis`
 
 ## Your own `devspace`
 
 The easiest way to get started is to fork this project and change the content of the `Dockerfile`. GitHub Actions inside `./github/workflows` will automatically build and release your custom `devspace` as `ghcr.io/{your-github-name}/devspace:main`
+
+Be aware that the current `Dockerfile` has some tests inside `./scripts/test.sh`. You should either exclude those from the `Dockerfile` or update them to reflect your setup.
 
 ## Extra security
 

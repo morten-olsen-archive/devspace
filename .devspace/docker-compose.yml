@@ -1,14 +1,14 @@
 version: "3"
 services:
   devspace:
-    image: ghcr.io/morten-olsen/devspace
-    restarts: unless-stopped
+    build: .
     volumes:
-      - ./:/workspace
+      - ../:/workspace
     networks:
       - myproject
+    depends_on:
+      - redis
   redis:
-    restarts: unless-stopped
     image: redis
     networks:
       - myproject
