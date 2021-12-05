@@ -44,6 +44,7 @@ RUN \
     source ~/.bashrc && \
     nvm install 16 && \
     npm i -g --ignore-scripts yarn write-good fx && \
+    echo "set -ag terminal-overrides ',*:cud1=\E[1B'" >> /home/developer/.tmux.conf && \
     git clone --depth 20 https://github.com/wbthomason/packer.nvim\
       ~/.local/share/nvim/site/pack/packer/start/packer.nvim && \
     nvim --headless -c "autocmd User PackerComplete quitall" -c "PackerSync"
